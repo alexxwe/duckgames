@@ -1,20 +1,57 @@
 <script lang="ts">
-    import Header from '$lib/Header.svelte'
-    import Router from '$lib/Router.svelte'
-    import Footer from '$lib/Footer.svelte'
+    import type { Game } from 'src/interfaces/Game.dto'
+    import BgImage from '$lib/BgImage.svelte'
+    import Box from '$lib/Box.svelte'
+    import Btn from '$lib/Btn.svelte'
+
+    const games: Game[] = [
+        {
+            name: 'Madness',
+            description: 'Combine cards in groups to avoid the madness.',
+            image: '/images/madness.jpg',
+            link: '/madness',
+        },
+        {
+            name: 'Parade',
+            description: 'Parade the correct number to keep with the lowest score.',
+            image: '/images/parade.jpg',
+            link: '/parade',
+        },
+        {
+            name: 'Tic Tac Toe',
+            description: 'The classic, but this time a version with Matrioshkas!',
+            image: '/images/tictactoe.jpg',
+            link: '/tictactoe',
+        },
+        {
+            name: 'Portal',
+            description: 'Navigate through a maze of rooms to find the exit.',
+            image: '/images/dark.jpg',
+            link: '/portal',
+        },
+    ]
 </script>
 
-<div class="lg:h-screen bg-zinc-900 text-white">
-    <header class="bg-zinc-800">
-        <Header />
-    </header>
-    
-    <main class="mt-10 px-2">
-        <Router />
-    </main>
-    
-    
-    <div class="bg-zinc-800 lg:absolute bottom-0 left-0 right-0 text-center">
-        <Footer />
-    </div>
+<div class="flex flex-col items-center justify-center">
+    <h2 class="text-4xl p-4">Welcome to DuckGames</h2>
+    <br/>
+
+    <Box title='Games available 🦆'>
+        <ul class="container grid lg:grid-cols-4 gap-4 p-4">
+            {#each games as game}
+                <li class="bg-zinc-800 border-2 p-4 cursor-pointer hover:bg-yellow-300 hover:text-black transition-transform hover:-rotate-3">
+                    <a href={game.link} class="grid grid-cols-2 gap-4">
+                        <div class="h-full">
+                            <BgImage image={game.image} />
+                        </div>
+                        <header>
+                            <h2 class="text-3xl mb-4">{game.name}</h2>
+                            <p>{game.description}</p>
+                            <Btn color="sfdfs">Start</Btn>
+                        </header>
+                    </a>
+                </li>
+            {/each}
+        </ul>
+    </Box>
 </div>
