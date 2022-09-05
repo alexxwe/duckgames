@@ -1,2 +1,20 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+    import Header from '$lib/Header.svelte'
+    import Router from '$lib/Router.svelte'
+    import Footer from '$lib/Footer.svelte'
+</script>
+
+<div class="lg:h-screen bg-zinc-900 text-white">
+    <header class="bg-zinc-800">
+        <Header />
+    </header>
+    
+    <main class="mt-10 px-2">
+        <Router />
+    </main>
+    
+    
+    <div class="bg-zinc-800 lg:absolute bottom-0 left-0 right-0 text-center">
+        <Footer />
+    </div>
+</div>
