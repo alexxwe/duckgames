@@ -1,4 +1,4 @@
-export type Game = {
+export type GameDTO = {
     name: string
     description: string
     image: string

@@ -1,10 +1,9 @@
 <script lang="ts">
-    import type { Game } from 'src/interfaces/Game.dto'
+    import type { GameDTO } from 'src/interfaces/Game.dto'
     import BgImage from '$lib/BgImage.svelte'
     import Box from '$lib/Box.svelte'
-    import Btn from '$lib/Btn.svelte'
 
-    const games: Game[] = [
+    const games: GameDTO[] = [
         {
             name: 'Madness',
             description: 'Combine cards in groups to avoid the madness.',
@@ -47,7 +46,6 @@
                         <header>
                             <h2 class="text-3xl mb-4">{game.name}</h2>
                             <p>{game.description}</p>
-                            <Btn color="sfdfs">Start</Btn>
                         </header>
                     </a>
                 </li>
