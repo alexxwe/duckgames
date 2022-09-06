@@ -25,11 +25,16 @@
     <br/>
 
     <div class="grid grid-cols-3 gap-4">
-        <MatrioshkasList playerMatrioshkas={player1} name='Player 1' />
+        <MatrioshkasList playerMatrioshkas={player1} player1={true} />
+
         <div>
-            Central map (grid)
+            <h2>Central map (grid)</h2>
+            <div class="border">
+                
+            </div>
         </div>
-        <MatrioshkasList playerMatrioshkas={player2} name='Player 2' />
+        
+        <MatrioshkasList playerMatrioshkas={player2} player1={false} />
     </div>
 
 </div>
