@@ -1,6 +1,6 @@
 <script lang="ts">
     import '../app.css'
-    import logo from '/favicon.png'
+    import logo from '$lib/assets/svelte.png'
     const date = new Date().getFullYear()
 </script>
 
