@@ -1,8 +1,14 @@
 <script lang="ts">
-    export let player1: boolean
-    const bgColor = player1 ? 'bg-blue-400' : 'bg-red-400'
+    import type { MatrioshkaDTO } from 'src/interfaces/Matrioshka'
 
-    export let type: 1 | 2 | 3
+    export let matrioshka: MatrioshkaDTO
+    export let blueTeam: boolean
+    export let isAvailable: boolean
+    export let selectToken: (id: number) => number
+
+    const bgColor = blueTeam ? 'bg-blue-400' : 'bg-red-400'
+    const animation = isAvailable ? '' : 'opacity-30'
+
     const emojis = {
         1: 'bi-emoji-frown text-lg',
         2: 'bi-emoji-neutral text-2xl',
@@ -10,6 +16,9 @@
     }
 </script>
 
-<div class="w-12 h-12 {bgColor} m-1 flex items-center justify-center hover:bg-zinc-500 cursor-pointer animate-pulse-fast">
-    <i class="bi {emojis[type]}"></i>
+<div
+    class="w-12 h-12 {bgColor} m-1 flex items-center justify-center hover:animate-pulse-fast cursor-pointer {animation}"
+    on:click={() => selectToken(matrioshka.id)}
+>
+    <i class="bi {emojis[matrioshka.value]}" />
 </div>
