@@ -1,6 +1,6 @@
 <script lang="ts">
     import Box from '$lib/Box.svelte'
-    import type { MatrioshkaDTO } from 'src/interfaces/Matrioshka.dto'
+    import type { MatrioshkaDTO } from 'src/interfaces/Matrioshka'
     import MatrioshkasList from './matrioshkasList.svelte'
 
     const player1: MatrioshkaDTO[] = []

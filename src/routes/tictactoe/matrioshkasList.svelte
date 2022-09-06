@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { MatrioshkaDTO } from 'src/interfaces/Matrioshka.dto'
+    import type { MatrioshkaDTO } from 'src/interfaces/Matrioshka'
     import Matrioshka from './matrioshka.svelte'
     export let playerMatrioshkas: MatrioshkaDTO[]
     export let player1: boolean

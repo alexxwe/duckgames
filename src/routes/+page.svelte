@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { GameDTO } from 'src/interfaces/Game.dto'
+    import type { GameDTO } from 'src/interfaces/Game'
     import BgImage from '$lib/BgImage.svelte'
     import Box from '$lib/Box.svelte'
 
