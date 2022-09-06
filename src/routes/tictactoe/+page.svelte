@@ -1,50 +1,35 @@
 <script lang="ts">
-    const game: {
-        data: {
-            board: number[]
-        }
-        player1: number[]
-        player2: number[]
-    } = {
-        data: {
-            board: [],
-        },
-        player1: [],
-        player2: [],
-    }
+    import Box from '$lib/Box.svelte'
+    import type { MatrioshkaDTO } from 'src/interfaces/Matrioshka.dto'
+    import MatrioshkasList from './matrioshkasList.svelte'
 
-    
-    game.data.board = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    game.player1 = [1, 1, 1, 2, 2, 2, 3, 3, 3]
-    game.player2 = [1, 1, 1, 2, 2, 2, 3, 3, 3]
+    const player1: MatrioshkaDTO[] = []
+    const player2: MatrioshkaDTO[] = []
+
+    const opts: Array<1 | 2 | 3> = [1, 1, 1, 2, 2, 2, 3, 3, 3]
+
+    for (const num of opts) {
+        player1.push({
+            value: num,
+            position: 0,
+        })
+        player2.push({
+            value: num,
+            position: 0,
+        })
+    }
 </script>
 
-<div>
-    <h1 class="text-3xl text-center py-5 font-bold">Tic Tac Toe</h1>
-    <hr />
+<div class="flex flex-col items-center justify-center">
+    <Box title="Tic Tac Toe">The game you already know BUT this time with matrioshkas!</Box>
+    <br/>
 
-    <div class="w-full grid grid-rows-3 gap-4 mt-12">
-        <div class="grid grid-cols-3 gap-4">
-            <div class="border h-24 w-24 flex items-center justify-center">{game.data.board[0]}</div>
-            <div class="border h-24 w-24 flex items-center justify-center">{game.data.board[1]}</div>
-            <div class="border h-24 w-24 flex items-center justify-center">{game.data.board[2]}</div>
+    <div class="grid grid-cols-3 gap-4">
+        <MatrioshkasList playerMatrioshkas={player1} name='Player 1' />
+        <div>
+            Central map (grid)
         </div>
-        <div class="grid grid-cols-3 gap-4">
-            <div class="border h-24 w-24 flex items-center justify-center">{game.data.board[3]}</div>
-            <div class="border h-24 w-24 flex items-center justify-center">{game.data.board[4]}</div>
-            <div class="border h-24 w-24 flex items-center justify-center">{game.data.board[5]}</div>
-        </div>
-        <div class="grid grid-cols-3 gap-4">
-            <div class="border h-24 w-24 flex items-center justify-center">{game.data.board[6]}</div>
-            <div class="border h-24 w-24 flex items-center justify-center">{game.data.board[7]}</div>
-            <div class="border h-24 w-24 flex items-center justify-center">{game.data.board[8]}</div>
-        </div>
+        <MatrioshkasList playerMatrioshkas={player2} name='Player 2' />
     </div>
 
-    <div class="mt-5 grid grid-cols-2">
-        <h4>Player 1</h4>
-        <h4>Player 2</h4>
-        <p>{game.player1}</p>
-        <p>{game.player2}</p>
-    </div>
 </div>
