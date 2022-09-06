@@ -7,5 +7,5 @@ node_modules
 .env.*
 !.env.example
 package-lock.json
-pnpm-lock.yml
+pnpm-lock.yaml
 yarn.lock
