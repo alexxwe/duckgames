@@ -1,21 +1,24 @@
 <script lang="ts">
     import Box from '$lib/Box.svelte'
-    import type { MatrioshkaDTO } from 'src/interfaces/Matrioshka'
+    import type { GameDataDTO, MatrioshkaDTO } from 'src/interfaces/Matrioshka'
     import MatrioshkasList from './matrioshkasList.svelte'
 
-    const player1Hand: MatrioshkaDTO[] = []
-    const player2Hand: MatrioshkaDTO[] = []
-    let selectedMatrioshkaId: number = 0
+    const game: GameDataDTO = {
+        player1: [],
+        player2: [],
+        selectToken: (id: number) => game.selectedToken = id,
+        selectedToken: 0
+    }
 
     const opts: Array<1 | 2 | 3> = [1, 1, 1, 2, 2, 2, 3, 3, 3]
 
     opts.forEach((value, idx) => {
-        player1Hand.push({
+        game.player1.push({
             id: idx + 1,
             value,
             position: 0,
         })
-        player2Hand.push({
+        game.player2.push({
             id: idx + 10,
             value,
             position: 0,
@@ -29,8 +32,6 @@
         4: 'Player2 won!',
     }
 
-    const selectToken = (id: number) => selectedMatrioshkaId = id
-
 </script>
 
 <div class="flex flex-col items-center justify-center">
@@ -38,16 +39,16 @@
     <br/>
 
     <div class="grid grid-cols-3 gap-4">
-        <MatrioshkasList playerMatrioshkas={player1Hand} blueTeam={true} isTurn={true} {selectToken} />
+        <MatrioshkasList {game} blueTeam={true} isTurn={true} />
 
         <div>
             <h2>Selected matrioshka <br/>(on hand)</h2>
             <div class="">
-                {selectedMatrioshkaId}
+                {game.selectedToken}
             </div>
         </div>
         
-        <MatrioshkasList playerMatrioshkas={player2Hand} blueTeam={false} isTurn={false} {selectToken} />
+        <MatrioshkasList {game} blueTeam={false} isTurn={false} />
     </div>
 
 </div>
