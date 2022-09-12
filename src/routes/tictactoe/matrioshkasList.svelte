@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { GameDataDTO, MatrioshkaDTO } from 'src/interfaces/Matrioshka'
     import Matrioshka from './matrioshka.svelte'
+
     export let game: GameDataDTO
     export let blueTeam: boolean
     export let isTurn: boolean

@@ -1,6 +1,7 @@
 <script lang="ts">
+    import type { GameDataDTO } from 'src/interfaces/Matrioshka'
+    
     import Box from '$lib/Box.svelte'
-    import type { GameDataDTO, MatrioshkaDTO } from 'src/interfaces/Matrioshka'
     import MatrioshkasList from './matrioshkasList.svelte'
 
     const game: GameDataDTO = {
