@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { GameDTO } from './types/Game'
     import Box from '$lib/Box.svelte'
-    import Btn from '$lib/Btn.svelte'
+    import TextInput from '$lib/TextInput.svelte'
     import MatrioshkasList from './matrioshkasList.svelte'
 
     /**
@@ -47,37 +47,21 @@
     <br />
 
     <section class="grid md:grid-cols-2 gap-4">
-        <div class="flex flex-col">
-            <label class="text-xl m-2" for="player1">Player 1 name</label>
-            <input
-                id="player1"
-                class="bg-zinc-700 p-2 rounded {!game.player1.name ? '' : 'cursor-not-allowed opacity-50'}"
-                bind:value={input1}
-                disabled={game.player1.name !== ''}
-                type="text"
-            />
-
-            {#if !game.player1.name}
-                <span on:click={() => (game.player1.name = input1)}>
-                    <Btn style="info">Save</Btn>
-                </span>
-            {/if}
-        </div>
-        <div class="flex flex-col">
-            <label class="text-xl m-2" for="player2">Player 2 name</label>
-            <input
-                id="player2"
-                class="bg-zinc-700 p-2 rounded {!game.player2.name ? '' : 'cursor-not-allowed opacity-50'}"
-                bind:value={input2}
-                disabled={game.player2.name !== ''}
-                type="text"
-            />
-            {#if !game.player2.name}
-                <span on:click={() => (game.player2.name = input2)}>
-                    <Btn style="danger">Save</Btn>
-                </span>
-            {/if}
-        </div>
+        <TextInput
+            inputValue={input1}
+            title="Player 1"
+            onClick={() => (game.player1.name = input1)}
+            disabled={game.player1.name !== ''}
+            hideButton={game.player1.name !== ''}
+        />
+        <TextInput
+            inputValue={input2}
+            title="Player 2"
+            onClick={() => (game.player2.name = input2)}
+            disabled={game.player2.name !== ''}
+            hideButton={game.player2.name !== ''}
+            buttonStyle="danger"
+        />
     </section>
 
     {#if !game.player1.name}
