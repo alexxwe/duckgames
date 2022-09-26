@@ -38,31 +38,54 @@
     })
 
     // Ask for player names
-    let input1: string
-    let input2: string
+    let gameStep: number = 0
+    let input1: string = ''
+    let input2: string = ''
 </script>
 
 <div class="flex flex-col items-center justify-center">
     <Box title="Tic Tac Toe">The game you already know BUT this time with matrioshkas!</Box>
     <br />
 
-    <section class="grid md:grid-cols-2 gap-4">
-        <TextInput
-            inputValue={input1}
-            title="Player 1"
-            onClick={() => (game.player1.name = input1)}
-            disabled={game.player1.name !== ''}
-            hideButton={game.player1.name !== ''}
-        />
-        <TextInput
-            inputValue={input2}
-            title="Player 2"
-            onClick={() => (game.player2.name = input2)}
-            disabled={game.player2.name !== ''}
-            hideButton={game.player2.name !== ''}
-            buttonStyle="danger"
-        />
-    </section>
+    {input1}
+    p1: {game.player1.name}
+    {input2}
+    p2: {game.player2.name}
+
+    {#if gameStep === 0}
+        <section class="grid md:grid-cols-2 gap-4">
+            <TextInput
+                inputValue={input1}
+                title="Player 1"
+                onClick={() => (game.player1.name = input1)}
+                disabled={game.player1.name !== ''}
+                hideButton={game.player1.name !== ''}
+            />
+            <TextInput
+                inputValue={input2}
+                title="Player 2"
+                onClick={() => (game.player2.name = input2)}
+                disabled={game.player2.name !== ''}
+                hideButton={game.player2.name !== ''}
+                buttonStyle="danger"
+            />
+        </section>
+    {/if}
+
+    {#if gameStep === 1}
+        <div class="grid grid-cols-3 gap-4">
+            <MatrioshkasList {game} blueTeam={true} isTurn={true} />
+        
+            <div>
+                <h2 class="text-xl">map</h2>
+                <div class="border grid grid-cols-3">
+                </div>
+            </div>
+            
+            <MatrioshkasList {game} blueTeam={false} isTurn={false} />
+        </div>
+        selected matrioshka {game.selectedToken}
+    {/if}
 
     {#if !game.player1.name}
         <span />
@@ -74,17 +97,5 @@
         {game.player2.name}
     {/if}
 
-    <div class="grid grid-cols-3 gap-4">
-        <MatrioshkasList {game} blueTeam={true} isTurn={true} />
-    
-        <div>
-            <h2 class="text-xl">map</h2>
-            <div class="border grid grid-cols-3">
-            </div>
-        </div>
-        
-        <MatrioshkasList {game} blueTeam={false} isTurn={false} />
-    </div>
 </div>
 
-selected matrioshka {game.selectedToken}
