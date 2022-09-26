@@ -8,7 +8,9 @@
     <header class="">
         <nav class="bg-zinc-800 p-4 flex justify-between items-center border border-x-0 border-t-0 ">
             <div class="flex items-center">
-                <img class="w-12" src={logo} alt="Svelte Logo" />
+                <a href="/">
+                    <img class="w-12" src={logo} alt="Svelte Logo" />
+                </a>
                 <h1 class="text-xl ml-5">Svelte App</h1>
             </div>
 
