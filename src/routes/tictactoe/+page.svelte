@@ -1,101 +1,66 @@
 <script lang="ts">
-    import type { GameDTO } from './types/Game'
     import Box from '$lib/components/Box.svelte'
-    import TextInput from '$lib/components/TextInput.svelte'
-    import MatrioshkasList from './matrioshkasList.svelte'
-
-    /**
-     * Declare the game information
-     */
-    const game: GameDTO = {
-        player1: {
-            name: '',
-            tokens: [],
-            isTurn: false,
-        },
-        player2: {
-            name: '',
-            tokens: [],
-            isTurn: false,
-        },
-        selectToken: (id: number) => (game.selectedToken = id),
-        selectedToken: 0,
-    }
-
-    // Fill the players array with tokens
-    const opts: Array<1 | 2 | 3> = [1, 1, 1, 2, 2, 2, 3, 3, 3]
-    opts.forEach((value, idx) => {
-        game.player1.tokens.push({
-            id: idx + 1,
-            value,
-            position: 0,
-        })
-        game.player2.tokens.push({
-            id: idx + 10,
-            value,
-            position: 0,
-        })
-    })
+    import { styles } from '../../styles/globals'
+    import { TicTacToe } from './game'
 
     // Ask for player names
-    let gameStep: number = 0
-    let input1: string = ''
-    let input2: string = ''
+    let gameStep: 0 | 1 = 1
+    let input1: string = 'Dawichi'
+    let input2: string = 'Dawichi'
+
+    const game = new TicTacToe()
 </script>
 
 <div class="flex flex-col items-center justify-center">
     <Box title="Tic Tac Toe">The game you already know BUT this time with matrioshkas!</Box>
     <br />
-
-    {input1}
-    p1: {game.player1.name}
-    {input2}
-    p2: {game.player2.name}
+    <br />
 
     {#if gameStep === 0}
-        <section class="grid md:grid-cols-2 gap-4">
-            <TextInput
-                inputValue={input1}
-                title="Player 1"
-                onClick={() => (game.player1.name = input1)}
-                disabled={game.player1.name !== ''}
-                hideButton={game.player1.name !== ''}
-            />
-            <TextInput
-                inputValue={input2}
-                title="Player 2"
-                onClick={() => (game.player2.name = input2)}
-                disabled={game.player2.name !== ''}
-                hideButton={game.player2.name !== ''}
-                buttonStyle="danger"
-            />
+        <p class="py-8">To start the game, write your names</p>
+        <section class="grid gap-4 md:grid-cols-2">
+            <div class="flex flex-col">
+                <label class="m-2 text-xl" for="p1">Player 1</label>
+                <input id="p1" class="rounded bg-zinc-700 p-2" bind:value={input1} type="text" />
+            </div>
+            <div class="flex flex-col">
+                <label class="m-2 text-xl" for="p2">Player 2</label>
+                <input id="p2" class="rounded bg-zinc-700 p-2" bind:value={input2} type="text" />
+            </div>
         </section>
+
+        <button class="{styles.button.info} {input1 && input2 ? '' : 'cursor-not-allowed opacity-50'} mt-8" on:click={() => (gameStep = 1)}>
+            Start
+        </button>
     {/if}
 
     {#if gameStep === 1}
-        <div class="grid grid-cols-3 gap-4">
-            <MatrioshkasList {game} blueTeam={true} isTurn={true} />
-        
-            <div>
-                <h2 class="text-xl">map</h2>
-                <div class="border grid grid-cols-3">
-                </div>
+        <section class="grid grid-cols-3 gap-8">
+            <aside>
+                <h2 class="text-2xl text-center pb-4">{input1}</h2>
+                <hr />
+                {#each game.player1 as piece, pieceIdx}
+                    <div>
+                        {piece.value}
+                    </div>
+                {/each}
+            </aside>
+            <div class="grid grid-cols-3 gap-3">
+                {#each game.board as row, rowIdx}
+                    {#each row as cell, cellIdx}
+                        <div class="h-24 w-24 bg-zinc-800 p-2">{cell}</div>
+                    {/each}
+                {/each}
             </div>
-            
-            <MatrioshkasList {game} blueTeam={false} isTurn={false} />
-        </div>
-        selected matrioshka {game.selectedToken}
+            <aside>
+                <h2 class="text-2xl text-center pb-4">{input1}</h2>
+                <hr />
+                {#each game.player2 as piece, pieceIdx}
+                    <div>
+                        {piece.value}
+                    </div>
+                {/each}
+            </aside>
+        </section>
     {/if}
-
-    {#if !game.player1.name}
-        <span />
-    {:else if !game.player2.name}
-        <span />
-    {:else}
-        <h1>FINISHED!!!!!!!!!!</h1>
-        {game.player1.name}
-        {game.player2.name}
-    {/if}
-
 </div>
-
