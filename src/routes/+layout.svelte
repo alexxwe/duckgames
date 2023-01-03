@@ -1,16 +1,17 @@
 <script lang="ts">
     import '../app.css'
-    import logo from '$lib/assets/svelte.png'
     const date = new Date().getFullYear()
 </script>
 
 <div class="lg:h-screen bg-zinc-900 text-white">
-    <header class="">
+    <header>
         <nav class="bg-zinc-800 p-4 flex justify-between items-center border border-x-0 border-t-0 ">
-            <div class="flex items-center">
-                <img class="w-12" src={logo} alt="Svelte Logo" />
-                <h1 class="text-xl ml-5">Svelte App</h1>
-            </div>
+            <a href="/">
+                <div class="flex items-center">
+                    <img class="w-12" src="/favicon.png" alt="Svelte Logo" />
+                    <h1 class="text-xl ml-5">DuckGames!</h1>
+                </div>
+            </a>
 
             <div class="text-2xl hover:text-yellow-300">
                 <a title="See project" href="https://github.com/dawichi/duckgames" target="_blank" rel="noreferrer">

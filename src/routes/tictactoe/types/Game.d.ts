@@ -1,4 +1,4 @@
-import type { MatrioshkaDTO } from "./Matrioshka"
+import type { MatrioshkaDTO } from './Matrioshka'
 
 type Player = {
     name: string

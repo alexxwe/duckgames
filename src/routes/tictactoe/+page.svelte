@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { GameDTO } from './types/Game'
-    import Box from '$lib/Box.svelte'
-    import TextInput from '$lib/TextInput.svelte'
+    import Box from '$lib/components/Box.svelte'
+    import TextInput from '$lib/components/TextInput.svelte'
     import MatrioshkasList from './matrioshkasList.svelte'
 
     /**

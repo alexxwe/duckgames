@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { GameDTO } from 'src/interfaces/Game'
-    import BgImage from '$lib/BgImage.svelte'
-    import Box from '$lib/Box.svelte'
+    import BgImage from '$lib/components/BgImage.svelte'
+    import Box from '$lib/components/Box.svelte'
 
     const games: GameDTO[] = [
         {
@@ -33,12 +33,12 @@
 
 <div class="flex flex-col items-center justify-center">
     <h2 class="text-4xl p-4">Welcome to DuckGames</h2>
-    <br/>
+    <br />
 
-    <Box title='Games available 🦆'>
+    <Box title="Games available 🦆">
         <ul class="container grid lg:grid-cols-4 gap-4 p-4">
             {#each games as game}
-                <li class="bg-zinc-800 border-2 p-4 cursor-pointer hover:bg-yellow-300 hover:text-black transition-transform hover:-rotate-3">
+                <li class="bg-zinc-800 border p-4 cursor-pointer hover:bg-yellow-300 hover:text-black transition-transform hover:-rotate-3">
                     <a href={game.link} class="grid grid-cols-2 gap-4">
                         <div class="h-full">
                             <BgImage image={game.image} />
