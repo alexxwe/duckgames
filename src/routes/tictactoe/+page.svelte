@@ -9,6 +9,12 @@
     let input2: string = 'Dawichi'
 
     const game = new TicTacToe()
+
+    const matrioshkaIcons: Record<number, string> = {
+        1: '🐣',
+        2: '🐥',
+        3: '🦆',
+    }
 </script>
 
 <div class="flex flex-col items-center justify-center">
@@ -37,13 +43,15 @@
     {#if gameStep === 1}
         <section class="grid grid-cols-3 gap-8">
             <aside>
-                <h2 class="text-2xl text-center pb-4">{input1}</h2>
+                <h2 class="pb-4 text-center text-2xl">{input1}</h2>
                 <hr />
-                {#each game.player1 as piece, pieceIdx}
-                    <div>
-                        {piece.value}
-                    </div>
-                {/each}
+                <div class="grid grid-cols-3 gap-8 text-4xl">
+                    {#each game.player1 as piece, pieceIdx}
+                        <button>
+                            {matrioshkaIcons[piece.value]}
+                        </button>
+                    {/each}
+                </div>
             </aside>
             <div class="grid grid-cols-3 gap-3">
                 {#each game.board as row, rowIdx}
@@ -53,13 +61,15 @@
                 {/each}
             </div>
             <aside>
-                <h2 class="text-2xl text-center pb-4">{input1}</h2>
+                <h2 class="pb-4 text-center text-2xl">{input1}</h2>
                 <hr />
-                {#each game.player2 as piece, pieceIdx}
-                    <div>
-                        {piece.value}
-                    </div>
-                {/each}
+                <div class="grid grid-cols-3 gap-8 text-4xl">
+                    {#each game.player2 as piece, pieceIdx}
+                        <button>
+                            {matrioshkaIcons[piece.value]}
+                        </button>
+                    {/each}
+                </div>
             </aside>
         </section>
     {/if}
