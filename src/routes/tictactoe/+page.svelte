@@ -45,27 +45,34 @@
             <aside>
                 <h2 class="pb-4 text-center text-2xl">{input1}</h2>
                 <hr />
-                <div class="grid grid-cols-3 gap-8 text-4xl">
+                <br />
+                <div class="grid grid-cols-3 gap-2 text-4xl">
                     {#each game.player1 as piece, pieceIdx}
-                        <button>
+                        <button class="rounded bg-zinc-700 p-4">
                             {matrioshkaIcons[piece.value]}
                         </button>
                     {/each}
                 </div>
             </aside>
-            <div class="grid grid-cols-3 gap-3">
-                {#each game.board as row, rowIdx}
-                    {#each row as cell, cellIdx}
-                        <div class="h-24 w-24 bg-zinc-800 p-2">{cell}</div>
+            <div>
+                <h2 class="pb-4 text-center text-2xl">Board</h2>
+                <hr />
+                <br />
+                <div class="grid grid-cols-3 gap-3">
+                    {#each game.board as row, rowIdx}
+                        {#each row as cell, cellIdx}
+                            <div class="h-24 w-24 bg-zinc-700 rounded p-4">{cell}</div>
+                        {/each}
                     {/each}
-                {/each}
+                </div>
             </div>
             <aside>
                 <h2 class="pb-4 text-center text-2xl">{input1}</h2>
                 <hr />
-                <div class="grid grid-cols-3 gap-8 text-4xl">
+                <br />
+                <div class="grid grid-cols-3 gap-2 text-4xl">
                     {#each game.player2 as piece, pieceIdx}
-                        <button>
+                        <button class="rounded bg-zinc-700 p-4">
                             {matrioshkaIcons[piece.value]}
                         </button>
                     {/each}
