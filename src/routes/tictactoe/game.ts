@@ -14,6 +14,16 @@ export class TicTacToe {
         [0, 0, 0],
     ]
 
+    icon(piece: Piece) {
+        const icons: Record<number, string> = {
+            1: '🐣',
+            2: '🐥',
+            3: '🦆',
+        }
+        return icons[piece.value]
+    }
+    
+
 
     move(x: number, y: number, piece: number) {
         // if (this.board[x][y]) {

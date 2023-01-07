@@ -48,9 +48,11 @@
                 <br />
                 <div class="grid grid-cols-3 gap-2 text-4xl">
                     {#each game.player1 as piece, pieceIdx}
-                        <button class="rounded bg-zinc-700 p-4">
-                            {matrioshkaIcons[piece.value]}
+                    <div class="flex justify-center">
+                        <button class="bg-blue-500/50 rounded p-2">
+                            {game.icon(piece)}
                         </button>
+                    </div>
                     {/each}
                 </div>
             </aside>
@@ -72,9 +74,11 @@
                 <br />
                 <div class="grid grid-cols-3 gap-2 text-4xl">
                     {#each game.player2 as piece, pieceIdx}
-                        <button class="rounded bg-zinc-700 p-4">
-                            {matrioshkaIcons[piece.value]}
-                        </button>
+                        <div class="flex justify-center">
+                            <button class="bg-red-500/50 rounded p-2">
+                                {game.icon(piece)}
+                            </button>
+                        </div>
                     {/each}
                 </div>
             </aside>
