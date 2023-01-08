@@ -48,11 +48,11 @@
                 <br />
                 <div class="grid grid-cols-3 gap-2 text-4xl">
                     {#each game.player1 as piece, pieceIdx}
-                    <div class="flex justify-center">
-                        <button class="bg-blue-500/50 rounded p-2">
-                            {game.icon(piece)}
-                        </button>
-                    </div>
+                        <div class="flex justify-center">
+                            <button class="rounded bg-blue-500/50 p-2">
+                                {game.icon(piece)}
+                            </button>
+                        </div>
                     {/each}
                 </div>
             </aside>
@@ -63,7 +63,7 @@
                 <div class="grid grid-cols-3 gap-3">
                     {#each game.board as row, rowIdx}
                         {#each row as cell, cellIdx}
-                            <div class="h-24 w-24 bg-zinc-700 rounded p-4">{cell}</div>
+                            <div class="h-24 w-24 rounded bg-zinc-700 p-4">{cell}</div>
                         {/each}
                     {/each}
                 </div>
@@ -75,7 +75,7 @@
                 <div class="grid grid-cols-3 gap-2 text-4xl">
                     {#each game.player2 as piece, pieceIdx}
                         <div class="flex justify-center">
-                            <button class="bg-red-500/50 rounded p-2">
+                            <button class="rounded bg-red-500/50 p-2">
                                 {game.icon(piece)}
                             </button>
                         </div>
