@@ -1,6 +1,4 @@
 <script lang="ts">
-    import TextInput from '$lib/TextInput.svelte'
-    import { each } from 'svelte/internal'
     import type { Game } from './types/Game'
 
     const game: Game = {
@@ -51,7 +49,7 @@
             <p>Player {++idx}</p>
             <input class="bg-zinc-600" bind:value={names[idx]} type="text" />
             {#if !names[idx]}
-                <button class="border bg-blue-600" on:click={() => registerName(names[idx])}>CONFIRM</button>
+                <button class="border bg-blue-600" on:click={() => registerName(String(names[idx]))}>CONFIRM</button>
             {/if}
         {/each}
 
