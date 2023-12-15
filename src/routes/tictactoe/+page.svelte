@@ -1,7 +1,7 @@
 <script lang="ts">
     import Box from '$lib/components/Box.svelte'
     import { styles } from '../../styles/globals'
-    import { TicTacToe, type Piece } from './game'
+    import { TicTacToe, type Piece, gameData } from './game'
 
     // Ask for player names
     let gameStep: 0 | 1 = 1
@@ -12,8 +12,6 @@
     // The inner logic is handled by the class
     const game = new TicTacToe()
 
-    $: selectedPiece = game.selectedPiece
-
     function highlightCell(clickedPiece: Piece, selectedPiece: Piece | null) {
         if (selectedPiece !== null && clickedPiece.player !== selectedPiece.player) {
             selectedPiece = null
@@ -23,8 +21,11 @@
     }
 
     function handleClickOnPiece(piece: Piece) {
-        selectedPiece = piece
         game.selectPiece(piece)
+    }
+
+    function handleClickOnBoard(row: number, col: number) {
+        game.movePiece(row, col)
     }
 </script>
 
@@ -32,6 +33,7 @@
     <Box title="Tic Tac Toe">The game you already know BUT this time with matrioshkas!</Box>
     <br />
     <br />
+    {$gameData.selectedPiece}
 
     {#if gameStep === 0}
         <p class="py-8">To start the game, write your names</p>
@@ -67,7 +69,7 @@
                     {#each game.player1 as piece, pieceIdx}
                         <div class="flex justify-center">
                             <button
-                                class="border rounded bg-blue-500/50 p-2 {highlightCell(piece, selectedPiece)}"
+                                class="border rounded bg-blue-500/50 p-2 {highlightCell(piece, $gameData.selectedPiece)}"
                                 on:click={() => handleClickOnPiece(piece)}
                             >
                                 {game.icon(piece)}
@@ -83,7 +85,7 @@
                 <div class="grid grid-cols-3 gap-3">
                     {#each game.board as row, rowIdx}
                         {#each row as cell, cellIdx}
-                            <div class="h-24 w-24 rounded bg-zinc-700 p-4">{cell}</div>
+                            <button on:click={() => handleClickOnBoard(rowIdx, cellIdx)} class="h-24 w-24 rounded bg-zinc-700 p-4">{cell}</button>
                         {/each}
                     {/each}
                 </div>
@@ -96,7 +98,7 @@
                     {#each game.player2 as piece, pieceIdx}
                         <div class="flex justify-center">
                             <button
-                                class="border border-red-700 rounded bg-red-500/50 p-2 {highlightCell(piece, selectedPiece)}"
+                                class="border border-red-700 rounded bg-red-500/50 p-2 {highlightCell(piece, $gameData.selectedPiece)}"
                                 on:click={() => handleClickOnPiece(piece)}
                             >
                                 {game.icon(piece)}
