@@ -28,6 +28,12 @@
             image: '/images/dark.jpg',
             link: '/portal',
         },
+        {
+            name: '6 Alive',
+            description: 'Add each number of the cards up to a maximum of 21, if you go over you lose a life.',
+            image:'/images/6lives.jpg',
+            link:'/6alive',
+        }
     ]
 </script>
 
