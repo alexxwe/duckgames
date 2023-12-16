@@ -31,9 +31,10 @@
 
 <div class="flex flex-col items-center justify-center">
     <Box title="Tic Tac Toe">The game you already know BUT this time with matrioshkas!</Box>
+    <span>isWhiteTurn: {$gameData.isWhiteTurn}</span>
+    <span>selectedPiece: {JSON.stringify($gameData.selectedPiece)}</span>
     <br />
     <br />
-    {$gameData.selectedPiece}
 
     {#if gameStep === 0}
         <p class="py-8">To start the game, write your names</p>
@@ -83,9 +84,15 @@
                 <hr />
                 <br />
                 <div class="grid grid-cols-3 gap-3">
-                    {#each game.board as row, rowIdx}
+                    {#each $gameData.board as row, rowIdx}
                         {#each row as cell, cellIdx}
-                            <button on:click={() => handleClickOnBoard(rowIdx, cellIdx)} class="h-24 w-24 rounded bg-zinc-700 p-4">{cell}</button>
+                            {#if cell === 0}
+                                <button on:click={() => handleClickOnBoard(rowIdx, cellIdx)} class="h-24 w-24 rounded bg-zinc-700 p-4">
+                                    {cell}
+                                </button>
+                            {:else}
+                                <div class="h-24 w-24 rounded bg-zinc-700 text-4xl flex justify-center items-center">{game.icon(cell)}</div>
+                            {/if}
                         {/each}
                     {/each}
                 </div>
