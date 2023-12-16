@@ -6,7 +6,6 @@ export type Piece = {
     player: 1 | 2
 }
 
-
 // Initial data and type
 const initial_data = {
     isWhiteTurn: true,
@@ -20,10 +19,8 @@ const initial_data = {
     ] as Array<Array<0 | Piece>>,
 }
 
-
 // The store itself
 export const gameData: Writable<typeof initial_data> = writable(initial_data)
-
 
 // The game class with logic, to make easier the implementations
 export class TicTacToe {
@@ -49,8 +46,8 @@ export class TicTacToe {
      * 3 of them have value 3 (big)
      */
     pieceValue(piece: Piece): number {
-        if (piece.id <= 3) return 1
-        if (piece.id <= 6) return 2
+        if (piece.id < 3) return 1
+        if (piece.id < 6) return 2
         return 3
     }
 
@@ -80,9 +77,14 @@ export class TicTacToe {
             return alert('There is already a piece there')
         }
 
+        // Remove piece from player
+        const player = this.isWhiteTurn ? this.player1 : this.player2
+        const index = player.findIndex(p => p.id === this.selectedPiece!.id)
+        player.splice(index, 1)
+
         // Update board
         this.board[y]![x] = this.selectedPiece
         this.selectedPiece = null
-        gameData.update(data => ({ ...data, board: this.board, selectedPiece: null }))
+        gameData.update(data => ({ ...data, board: this.board, selectedPiece: null, player1: this.player1, player2: this.player2 }))
     }
 }
