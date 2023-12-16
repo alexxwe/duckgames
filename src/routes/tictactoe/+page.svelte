@@ -70,7 +70,7 @@
                         <div class="flex justify-center">
                             <button
                                 class="border rounded bg-blue-500/50 p-2 {highlightCell(piece, $gameData.selectedPiece)}"
-                                on:click={() => handleClickOnPiece(piece)}
+                                on:click={() => game.selectPiece(piece)}
                             >
                                 {game.icon(piece)}
                             </button>
@@ -99,7 +99,7 @@
                         <div class="flex justify-center">
                             <button
                                 class="border border-red-700 rounded bg-red-500/50 p-2 {highlightCell(piece, $gameData.selectedPiece)}"
-                                on:click={() => handleClickOnPiece(piece)}
+                                on:click={() => game.selectPiece(piece)}
                             >
                                 {game.icon(piece)}
                             </button>
