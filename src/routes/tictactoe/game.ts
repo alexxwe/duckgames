@@ -54,17 +54,21 @@ export class TicTacToe {
         return 3
     }
 
+    /**
+     * Selecting a piece from the one availables for that player
+     */
     selectPiece(piece: Piece): void {
         const is_your_piece = (this.isWhiteTurn && piece.player === 1) || (!this.isWhiteTurn && piece.player === 2)
         if (!is_your_piece) {
             return alert('Please, select one of YOUR pieces')
         }
 
-        // Update both, class and store
-        this.selectedPiece = piece
-        gameData.update(data => ({ ...data, selectedPiece: piece }))
+        // If the piece was already selected, unselect it
+        const newValue = piece.id === this.selectedPiece?.id ? null : piece
 
-        console.log(piece)
+        // Update both, class and store
+        this.selectedPiece = newValue
+        gameData.update(data => ({ ...data, selectedPiece: newValue }))
     }
 
     movePiece(y: number, x: number): void {
@@ -79,5 +83,6 @@ export class TicTacToe {
         // Update board
         this.board[y]![x] = this.selectedPiece
         this.selectedPiece = null
+        gameData.update(data => ({ ...data, board: this.board, selectedPiece: null }))
     }
 }
