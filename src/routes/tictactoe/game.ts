@@ -62,7 +62,7 @@ export class TicTacToe {
 
         // Update both, class and store
         this.selectedPiece = piece
-        gameData.update(data => ({ ...data, pieceSelected: piece }))
+        gameData.update(data => ({ ...data, selectedPiece: piece }))
 
         console.log(piece)
     }
