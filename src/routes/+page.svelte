@@ -33,7 +33,13 @@
             description: 'Add each number of the cards up to a maximum of 21, if you go over you lose a life.',
             image:'/images/6lives.jpg',
             link:'/6alive',
-        }
+        },
+        {
+            name: 'Connect 4',
+            description: 'Connect 4 in a row like in the classic tic tac toe with this fantastic new big board.',
+            image: '/images/connect4.png',
+            link: '/connect4',
+        },
     ]
 </script>
 

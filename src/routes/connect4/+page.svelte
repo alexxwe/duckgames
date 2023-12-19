@@ -2,11 +2,10 @@
     // 🔴🔵
 
     import Box from '$lib/components/Box.svelte'
-    // Player Names
-    let player1: string = 'Alex'
-    let player2: string = 'EvilAlex'
 
-    //Turns
+    let player1: string = 'Blue'
+    let player2: string = 'Red'
+
     let gameTurn1: boolean = true
 
     let alert = {
@@ -14,18 +13,13 @@
         win: '',
     }
 
+    const generateBoard = () => Array.from({ length: 6 }, () => Array.from({ length: 7 }, () => 0))
+
     // Board
-    const board: Array<Array<number>> = [
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-    ]
+    let board: Array<Array<number>> = generateBoard()
 
     // Winner function
-    function winner2() {
+    function winner() {
         for (const [row_idx_str, row] of Object.entries(board)) {
             const row_idx = Number(row_idx_str)
 
@@ -98,81 +92,11 @@
         return false
     }
 
-    function winner() {
-        // Check Rows
-        for (const row of board) {
-            for (const col of row) {
-                if (
-                    col !== 0 &&
-                    col === row[row.indexOf(col) + 1] &&
-                    col === row[row.indexOf(col) + 2] &&
-                    col === row[row.indexOf(col) + 3]
-                ) {
-                    return true
-                }
-            }
-        }
-
-        // for (let row = 0; row < board.length; row++) {
-        //     for (let col = 0; col <= board[row]!.length - 4; col++) {
-        //         if (
-        //             board[row]![col] !== 0 &&
-        //             board[row]![col] === board[row]![col + 1] &&
-        //             board[row]![col] === board[row]![col + 2] &&
-        //             board[row]![col] === board[row]![col + 3]
-        //         ) {
-        //             return true
-        //         }
-        //     }
-        // }
-
-        // Check columns
-        for (const col of board!.keys()) {
-            for (const row of board) {
-                if (
-                    row[col] !== 0 &&
-                    row[col] === (board[board.indexOf(row) + 1] ? board[board.indexOf(row) + 1]![col] : undefined) &&
-                    row[col] === (board[board.indexOf(row) + 2] ? board[board.indexOf(row) + 2]![col] : undefined) &&
-                    row[col] === (board[board.indexOf(row) + 3] ? board[board.indexOf(row) + 3]![col] : undefined)
-                ) {
-                    return true
-                }
-            }
-        }
-
-        // for (let col = 0; col < board!.length; col++) {
-        //     for (let row = 0; row <= board.length - 4; row++) {
-        //         if (
-        //             board[row]![col] !== 0 &&
-        //             board[row]![col] === board[row + 1]![col] &&
-        //             board[row]![col] === board[row + 2]![col] &&
-        //             board[row]![col] === board[row + 3]![col]
-        //         ) {
-        //             return true
-        //         }
-        //     }
-        // }
-
-        // Check Diagonals
-        for (let row = 0; row <= board.length - 4; row++) {
-            for (let col = 0; col <= board[row]!.length - 4; col++) {
-                if (
-                    (board[row]![col] !== 0 &&
-                        board[row]![col] === board[row + 1]![col + 1] &&
-                        board[row]![col] === board[row + 2]![col + 2] &&
-                        board[row]![col] === board[row + 3]![col + 3]) ||
-                    (board[row]![col] !== 0 &&
-                        board[row]![col] === board[row + 1]![col - 1] &&
-                        board[row]![col] === board[row + 2]![col - 2] &&
-                        board[row]![col] === board[row + 3]![col - 3])
-                ) {
-                    return true
-                }
-            }
-        }
-    }
-
     function handleClick(rowIdx: number, colIdx: number) {
+        if (alert.win) {
+            return
+        }
+
         const isColumnFull = board.every(row => row[colIdx] !== 0)
 
         if (isColumnFull) {
@@ -186,31 +110,36 @@
         const lowestRowIdx = column.findLastIndex(num => num === 0)
         board[lowestRowIdx]![colIdx] = gameTurn1 ? 1 : 2
 
-        // gameTurn1 = gameTurn1 === true ? gameTurn1 = false : gameTurn1 = true
-        // if (gameTurn1 === true){gameTurn1 = false} else{gameTurn1 = true}
-
-        // gameTurn1 = gameTurn1 ? false : true
-
-        if (winner2()) {
+        if (winner()) {
             alert.win = `${gameTurn1 ? player1 : player2} wins!`
         } else {
             gameTurn1 = !gameTurn1
         }
     }
+
+    function resetGame() {
+        alert.error = ''
+        alert.win = ''
+        gameTurn1 = true
+        board = generateBoard()
+    }
 </script>
 
 <div class="ml-4">
-    <div>
+    <div class="flex">
         <Box title="Connect 4">Connect 4 in a row like in the classic tic tac toe with this fantastic new big board.</Box>
     </div>
+    <h1 class="text-center text-3xl font-semibold {gameTurn1 ? 'text-blue-400' : 'text-red-400'}">{gameTurn1 ? player1 : player2}</h1>
     <div
         class="border-l-4 {alert.error ? 'border-red-600 bg-red-400/30' : 'border-green-600 bg-green-400/30'} 
-            p-4 w-96 mx-auto my-4 {alert.error || alert.win ? '' : 'invisible'}"
+            p-4 w-96 mx-auto my-2 {alert.error || alert.win ? '' : 'invisible'}"
     >
         <h2><i class="bi bi-exclamation-triangle-fill"></i> {alert.error ? alert.error : alert.win}</h2>
     </div>
     <div class="text-center text-2xl">
         <br />
+
+        <!-- <div class="border-8 {gameTurn1 ? 'border-blue-500' : 'border-red-500'} flex flex-wrap mx-auto w-[31rem]"> -->
         <div class="flex flex-wrap mx-auto w-[32rem] gap-1">
             {#each board as row, rowIdx}
                 {#each row as col, colIdx}
@@ -226,3 +155,7 @@
         </div>
     </div>
 </div>
+<!-- </div> -->
+<button on:click={resetGame} class="rounded rounded-t-full font-semibold bg-red-600 hover:bg-red-800 py-2 px-4 ml-4 my-4">
+    Reset Game</button
+>
