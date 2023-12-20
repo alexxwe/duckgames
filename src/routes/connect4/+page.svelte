@@ -132,18 +132,18 @@
     <h1 class="text-center text-3xl font-semibold {gameTurn1 ? 'text-blue-400' : 'text-red-400'}">{gameTurn1 ? player1 : player2}</h1>
     <div
         class="border-l-4 {alert.error ? 'border-red-600 bg-red-400/30' : 'border-green-600 bg-green-400/30'} 
-            p-4 w-96 mx-auto my-2 {alert.error || alert.win ? '' : 'invisible'}"
+            p-4 w-72 mx-auto my-2 {alert.error || alert.win ? '' : 'invisible'}"
     >
         <h2><i class="bi bi-exclamation-triangle-fill"></i> {alert.error ? alert.error : alert.win}</h2>
     </div>
-    <div class="text-center text-2xl">
+    <div class="text-center text-md md:text-2xl">
         <br />
 
         <!-- <div class="border-8 {gameTurn1 ? 'border-blue-500' : 'border-red-500'} flex flex-wrap mx-auto w-[31rem]"> -->
-        <div class="flex flex-wrap mx-auto w-[32rem] gap-1">
+        <div class="flex flex-wrap mx-auto w-[16rem] md:w-[32rem] gap-1">
             {#each board as row, rowIdx}
                 {#each row as col, colIdx}
-                    <button on:click={() => handleClick(rowIdx, colIdx)} class="bg-neutral-500 hover:bg-neutral-700 p-4 h-16 w-16">
+                    <button on:click={() => handleClick(rowIdx, colIdx)} class="bg-neutral-500 hover:bg-neutral-700 md:p-4 h-8 w-8 md:h-16 md:w-16">
                         {#if col === 1}
                             <p class="animate__animated animate__backInDown animate__fast">🔵</p>
                         {:else if col === 2}
