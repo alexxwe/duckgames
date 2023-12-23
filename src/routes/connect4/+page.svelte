@@ -141,9 +141,13 @@
             {#each row as col, colIdx}
                 <button on:click={() => handleClick(rowIdx, colIdx)} class="bg-neutral-500 hover:bg-neutral-700 p-4 h-16 w-16">
                     {#if col === 1}
-                        <p class="animate__animated animate__backInDown animate__fast">🔵</p>
+                        <div class="animate__animated animate__backInDown animate__fast flex items-center justify-center w-full h-full">
+                            <p class="w-8 h-8 bg-blue-700 rounded-full border-4 border-blue-900"></p>
+                        </div>
                     {:else if col === 2}
-                        <p class="animate__animated animate__backInDown animate__fast">🔴</p>
+                        <div class="animate__animated animate__backInDown animate__fast flex items-center justify-center w-full h-full">
+                            <p class="w-8 h-8 bg-red-700 rounded-full border-4 border-red-900"></p>
+                        </div>
                     {/if}
                 </button>
             {/each}
