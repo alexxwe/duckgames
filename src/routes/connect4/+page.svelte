@@ -136,7 +136,7 @@
         <h2><i class="bi bi-exclamation-triangle-fill"></i> {alert.error ? alert.error : alert.win}</h2>
     </div>
 
-    <div class="flex flex-wrap mx-auto w-[474px] gap-1 text-center text-2xl border">
+    <div class="flex flex-wrap mx-auto w-[474px] gap-1 text-center text-2xl">
         {#each board as row, rowIdx}
             {#each row as col, colIdx}
                 <button on:click={() => handleClick(rowIdx, colIdx)} class="bg-neutral-500 hover:bg-neutral-700 p-4 h-16 w-16">
