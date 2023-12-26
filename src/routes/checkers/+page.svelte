@@ -26,7 +26,7 @@
         [0, 2, 0, 2, 0, 2, 0, 2],
         [2, 0, 2, 0, 2, 0, 2, 0],
         [0, 2, 0, 0, 0, 2, 0, 2],
-        [0, 0, 2, 0, 0, 0, 0, 0],
+        [0, 0, 2, 0, 1, 0, 0, 0],
         [0, 2, 0, 0, 0, 0, 0, 0],
         [1, 0, 1, 0, 1, 0, 1, 0],
         [0, 1, 0, 1, 0, 1, 0, 1],
@@ -40,34 +40,29 @@
      * 2- Highlight the respective cell to allow the possible moves
      */
     function handleOnClick(rowIdx: number, colIdx: number) {
+        alert.error = ''
         const selectedPiece = board[rowIdx]![colIdx]!
 
-        const is_player1 = gameTurn1 && [1, 3].includes(selectedPiece)
-        const is_player2 = !gameTurn1 && [2, 4].includes(selectedPiece)
+        const is_player1 = gameTurn1 && [1, 3, 5].includes(selectedPiece)
+        const is_player2 = !gameTurn1 && [2, 4, 5].includes(selectedPiece)
 
         if (!is_player1 && !is_player2) {
             alert.error = 'Select your Piece'
             return
         }
 
-        if (highlighted[0]) {
-            // Has hecho click en una pieza (en vez de en un ghost move)
+        // You clicked a different piece
+        if ([1, 2, 3, 4].includes(selectedPiece)) {
             highlighted = [rowIdx, colIdx]
             cleanGhostMoves()
             generateGhostMoves(rowIdx, colIdx)
+        }
 
-            // Has hecho click en un ghost move
-            if (selectedPiece === 5) {
-                // move(highlighted, pieza)
-                highlighted = [null, null]
-                gameTurn1 = !gameTurn1
-            }
-        } else {
-            if ([1, 2, 3, 4].includes(selectedPiece)) {
-                highlighted = [rowIdx, colIdx]
-                cleanGhostMoves()
-                generateGhostMoves(rowIdx, colIdx)
-            }
+        // You clicked a possible ghost move
+        if (selectedPiece === 5) {
+            moves(rowIdx, colIdx)
+            highlighted = [null, null]
+            gameTurn1 = !gameTurn1
         }
     }
 
@@ -81,22 +76,34 @@
         )
 
     function generateGhostMoves(rowIdx: number, colIdx: number) {
-        if (board[rowIdx - 1]![colIdx + 1]! === 0) {
-            board[rowIdx - 1]![colIdx + 1]! = 5
-            alert.error = ''
-        }
+        if (gameTurn1) {
+            // TOP RIGHT
+            if (board[rowIdx - 1]![colIdx + 1]! === 0) {
+                board[rowIdx - 1]![colIdx + 1]! = 5
+            } else if (board[rowIdx - 1]![colIdx + 1]! === 2 && board[rowIdx - 2]![colIdx + 2]! === 0) {
+                board[rowIdx - 2]![colIdx + 2]! = 5
+            }
 
-        if (board[rowIdx - 1]![colIdx - 1]! === 0) {
-            board[rowIdx - 1]![colIdx - 1]! = 5
-            alert.error = ''
-        }
+            // TOP LEFT
+            if (board[rowIdx - 1]![colIdx - 1]! === 0) {
+                board[rowIdx - 1]![colIdx - 1]! = 5
+            } else if (board[rowIdx - 1]![colIdx - 1]! === 2 && board[rowIdx - 2]![colIdx - 2]! === 0) {
+                board[rowIdx - 2]![colIdx - 2]! = 5
+            }
+        } else {
+            // BOTTOM RIGHT
+            if (board[rowIdx + 1]![colIdx + 1]! === 0) {
+                board[rowIdx + 1]![colIdx + 1]! = 5
+            } else if (board[rowIdx + 1]![colIdx + 1]! === 1 && board[rowIdx + 2]![colIdx + 2]! === 0) {
+                board[rowIdx + 2]![colIdx + 2]! = 5
+            }
 
-        if (board[rowIdx - 1]![colIdx + 1]! === 2 && board[rowIdx - 2]![colIdx + 2]! === 0) {
-            board[rowIdx - 2]![colIdx + 2]! = 5
-        }
-
-        if (board[rowIdx - 1]![colIdx - 1]! === 2 && board[rowIdx - 2]![colIdx - 2]! === 0) {
-            board[rowIdx - 2]![colIdx - 2]! = 5
+            // BOTTOM LEFT
+            if (board[rowIdx + 1]![colIdx - 1]! === 0) {
+                board[rowIdx + 1]![colIdx - 1]! = 5
+            } else if (board[rowIdx + 1]![colIdx - 1]! === 1 && board[rowIdx + 2]![colIdx - 2]! === 0) {
+                board[rowIdx + 2]![colIdx - 2]! = 5
+            }
         }
     }
 
@@ -105,7 +112,17 @@
             return
         }
 
-        const selectedPiece = board[rowIdx]![colIdx]
+        // This should never happen
+        if (!rowIdx || !rowIdx || !highlighted[0] || !highlighted[1]) {
+            alert.error = 'An error happened.'
+            return
+        }
+    
+        console.log('moving', highlighted, 'to', rowIdx, colIdx)
+
+        const origin = highlighted as [number, number]
+        const destiny = [rowIdx, colIdx] as [number, number]
+        const selectedPiece = board[origin[0]]![origin[1]]!
 
         if ((gameTurn1 && selectedPiece === 1) || (!gameTurn1 && selectedPiece === 2)) {
             const yBasedOnTurn = gameTurn1 ? -1 : 1
@@ -135,7 +152,7 @@
     function winner() {}
 
     const isHighlighted = (rowIdx: number, colIdx: number, highlighted: (number | null)[]) =>
-        highlighted[0] === rowIdx && highlighted[1] === colIdx ? 'bg-green-800' : ''
+        highlighted[0] === rowIdx && highlighted[1] === colIdx ? 'bg-green-800' : 'bg-green-600'
 
     function resetGame() {
         alert.error = ''
@@ -164,7 +181,7 @@
                 {:else}
                     <button
                         on:click={() => handleOnClick(rowIdx, colIdx)}
-                        class="p-4 h-16 w-16 bg-green-600 text-2xl {isHighlighted(rowIdx, colIdx, highlighted)}"
+                        class="p-4 h-16 w-16 text-2xl {isHighlighted(rowIdx, colIdx, highlighted)}"
                     >
                         {#if col === 1}
                             <p class="">🔵</p>
