@@ -131,11 +131,10 @@
     <h1 class="text-center text-3xl font-semibold {gameTurn1 ? 'text-blue-400' : 'text-red-400'}">{gameTurn1 ? player1 : player2}</h1>
     <div
         class="border-l-4 {alert.error ? 'border-red-600 bg-red-400/30' : 'border-green-600 bg-green-400/30'} 
-            p-4 w-96 mx-auto my-2 {alert.error || alert.win ? '' : 'invisible'}"
+            p-4 w-72 mx-auto my-2 {alert.error || alert.win ? '' : 'invisible'}"
     >
         <h2><i class="bi bi-exclamation-triangle-fill"></i> {alert.error ? alert.error : alert.win}</h2>
-    </div>
-
+    </div
     <div class="flex flex-wrap mx-auto w-[474px] gap-1 text-center text-2xl">
         {#each board as row, rowIdx}
             {#each row as col, colIdx}
