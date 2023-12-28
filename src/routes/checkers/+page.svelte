@@ -111,41 +111,27 @@
         if (alert.win) {
             return
         }
+        console.log('moving', highlighted, 'to', rowIdx, colIdx)
 
         // This should never happen
-        if (!rowIdx || !rowIdx || !highlighted[0] || !highlighted[1]) {
+        if (highlighted[0] === null || highlighted[1] === null) {
             alert.error = 'An error happened.'
             return
         }
-    
-        console.log('moving', highlighted, 'to', rowIdx, colIdx)
-
+        
         const origin = highlighted as [number, number]
         const destiny = [rowIdx, colIdx] as [number, number]
         const selectedPiece = board[origin[0]]![origin[1]]!
 
-        if ((gameTurn1 && selectedPiece === 1) || (!gameTurn1 && selectedPiece === 2)) {
-            const yBasedOnTurn = gameTurn1 ? -1 : 1
-
-            const target = rowIdx + yBasedOnTurn
-
-            if (target >= 0 && target < 8 && board[target]![colIdx] === 0) {
-                board[target]![colIdx] = selectedPiece
-                board[rowIdx]![colIdx] = 0
-
-                gameTurn1 = !gameTurn1
-
-                return
-            }
-            alert.error = 'Target cell is not empty.'
-        } else {
-            alert.error = 'Select your Piece'
-
-            // if (winner()) {
-            //     alert.win = `${gameTurn1 ? player1 : player2} wins!`
-            // } else {
-            //     gameTurn1 = !gameTurn1
-            // }
+        board[rowIdx]![colIdx] = selectedPiece
+        board[highlighted[0]!]![highlighted[1]!] = 0
+        highlighted = [null, null]
+        cleanGhostMoves()
+        
+        if (Math.abs(rowIdx - origin[0]) === 2 && Math.abs(colIdx - origin[1]) === 2) {
+            const capturedRow = (rowIdx + origin[0]) / 2
+            const capturedCol = (colIdx + origin[1]) / 2
+            board[capturedRow]![capturedCol] = 0
         }
     }
 
@@ -202,3 +188,26 @@
 <button on:click={resetGame} class="rounded rounded-t-full font-semibold bg-red-600 hover:bg-red-800 py-2 px-4 ml-4 my-4">
     Reset Game</button
 >
+
+<!-- // if ((gameTurn1 && selectedPiece === 1) || (!gameTurn1 && selectedPiece === 2)) {
+    //     const yBasedOnTurn = gameTurn1 ? -1 : 1
+
+    //     const target = rowIdx + yBasedOnTurn
+
+    //     if (target >= 0 && target < 8 && board[target]![colIdx] === 0) {
+    //         board[target]![colIdx] = selectedPiece
+    //         board[rowIdx]![colIdx] = 0
+
+    //         gameTurn1 = !gameTurn1
+
+    //         return
+    //     }
+    //     alert.error = 'Target cell is not empty.'
+    // } else {
+    //     alert.error = 'Select your Piece'
+
+    // if (winner()) {
+    //     alert.win = `${gameTurn1 ? player1 : player2} wins!`
+    // } else {
+    //     gameTurn1 = !gameTurn1
+    // } -->
