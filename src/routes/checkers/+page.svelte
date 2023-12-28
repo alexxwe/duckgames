@@ -23,14 +23,14 @@
     }
 
     const generateBoard = () => [
-        [0, 2, 0, 2, 0, 2, 0, 2],
-        [2, 0, 2, 0, 2, 0, 2, 0],
         [0, 2, 0, 0, 0, 2, 0, 2],
-        [0, 0, 2, 0, 1, 0, 0, 0],
+        [2, 0, 2, 0, 0, 0, 2, 0],
+        [0, 2, 0, 0, 0, 1, 0, 2],
+        [0, 0, 2, 0, 1, 0, 3, 0],
         [0, 2, 0, 0, 0, 0, 0, 0],
-        [1, 0, 1, 0, 1, 0, 1, 0],
-        [0, 1, 0, 1, 0, 1, 0, 1],
-        [1, 0, 1, 0, 1, 0, 1, 0],
+        [1, 0, 1, 0, 0, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 2],
+        [4, 0, 3, 0, 1, 0, 0, 0],
     ]
 
     let board = generateBoard()
@@ -78,33 +78,40 @@
     function generateGhostMoves(rowIdx: number, colIdx: number) {
         if (gameTurn1) {
             // TOP RIGHT
-            if (board[rowIdx - 1]![colIdx + 1]! === 0) {
+            if (rowIdx > 0 && colIdx < 7 && board[rowIdx - 1]![colIdx + 1]! === 0) {
                 board[rowIdx - 1]![colIdx + 1]! = 5
-            } else if (board[rowIdx - 1]![colIdx + 1]! === 2 && board[rowIdx - 2]![colIdx + 2]! === 0) {
+            } else if (rowIdx > 1 && colIdx < 6 && [2, 4].includes(board[rowIdx - 1]![colIdx + 1]!) && board[rowIdx - 2]![colIdx + 2]! === 0
+            ) {
                 board[rowIdx - 2]![colIdx + 2]! = 5
             }
 
             // TOP LEFT
             if (board[rowIdx - 1]![colIdx - 1]! === 0) {
                 board[rowIdx - 1]![colIdx - 1]! = 5
-            } else if (board[rowIdx - 1]![colIdx - 1]! === 2 && board[rowIdx - 2]![colIdx - 2]! === 0) {
+            } else if ([2, 4].includes(board[rowIdx - 1]![colIdx - 1]!) && board[rowIdx - 2]![colIdx - 2]! === 0) {
                 board[rowIdx - 2]![colIdx - 2]! = 5
             }
         } else {
             // BOTTOM RIGHT
             if (board[rowIdx + 1]![colIdx + 1]! === 0) {
                 board[rowIdx + 1]![colIdx + 1]! = 5
-            } else if (board[rowIdx + 1]![colIdx + 1]! === 1 && board[rowIdx + 2]![colIdx + 2]! === 0) {
+            } else if ([1, 3].includes(board[rowIdx + 1]![colIdx + 1]!) && board[rowIdx + 2]![colIdx + 2]! === 0) {
                 board[rowIdx + 2]![colIdx + 2]! = 5
             }
 
             // BOTTOM LEFT
             if (board[rowIdx + 1]![colIdx - 1]! === 0) {
                 board[rowIdx + 1]![colIdx - 1]! = 5
-            } else if (board[rowIdx + 1]![colIdx - 1]! === 1 && board[rowIdx + 2]![colIdx - 2]! === 0) {
+            } else if ([1, 3].includes(board[rowIdx + 1]![colIdx - 1]!) && board[rowIdx + 2]![colIdx - 2]! === 0) {
                 board[rowIdx + 2]![colIdx - 2]! = 5
             }
         }
+
+        // if(board[rowIdx]![colIdx] === 3 || board[rowIdx]![colIdx] === 4){
+        //     for (const [x, y] of [[-1,-1],[-1, 1],[]]) {
+
+        //     }
+        // }
     }
 
     function moves(rowIdx: number, colIdx: number) {
@@ -118,16 +125,21 @@
             alert.error = 'An error happened.'
             return
         }
-        
+
         const origin = highlighted as [number, number]
         const destiny = [rowIdx, colIdx] as [number, number]
         const selectedPiece = board[origin[0]]![origin[1]]!
 
         board[rowIdx]![colIdx] = selectedPiece
+
+        if ((selectedPiece === 1 && rowIdx === 0) || (selectedPiece === 2 && rowIdx === 7)) {
+            board[rowIdx]![colIdx] += 2
+        }
+
         board[highlighted[0]!]![highlighted[1]!] = 0
         highlighted = [null, null]
         cleanGhostMoves()
-        
+
         if (Math.abs(rowIdx - origin[0]) === 2 && Math.abs(colIdx - origin[1]) === 2) {
             const capturedRow = (rowIdx + origin[0]) / 2
             const capturedCol = (colIdx + origin[1]) / 2
@@ -177,6 +189,10 @@
                             <!-- <p class="animate__animated animate__backInDown animate__fast">🔴</p> -->
                         {:else if col === 5}
                             <i class="bi bi-dot"></i>
+                        {:else if col === 3}
+                            <p class="">🥶</p>
+                        {:else if col === 4}
+                            <p class="">😡</p>
                         {/if}
                     </button>
                 {/if}
@@ -188,26 +204,3 @@
 <button on:click={resetGame} class="rounded rounded-t-full font-semibold bg-red-600 hover:bg-red-800 py-2 px-4 ml-4 my-4">
     Reset Game</button
 >
-
-<!-- // if ((gameTurn1 && selectedPiece === 1) || (!gameTurn1 && selectedPiece === 2)) {
-    //     const yBasedOnTurn = gameTurn1 ? -1 : 1
-
-    //     const target = rowIdx + yBasedOnTurn
-
-    //     if (target >= 0 && target < 8 && board[target]![colIdx] === 0) {
-    //         board[target]![colIdx] = selectedPiece
-    //         board[rowIdx]![colIdx] = 0
-
-    //         gameTurn1 = !gameTurn1
-
-    //         return
-    //     }
-    //     alert.error = 'Target cell is not empty.'
-    // } else {
-    //     alert.error = 'Select your Piece'
-
-    // if (winner()) {
-    //     alert.win = `${gameTurn1 ? player1 : player2} wins!`
-    // } else {
-    //     gameTurn1 = !gameTurn1
-    // } -->
