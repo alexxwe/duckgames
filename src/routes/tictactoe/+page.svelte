@@ -102,7 +102,12 @@
                                     {cell}
                                 </button>
                             {:else}
-                                <div class="h-24 w-24 rounded bg-zinc-700 text-4xl flex justify-center items-center {pieceBackground(cell)}">{game.icon(cell)}</div>
+                                <button
+                                    on:click={() => handleClickOnBoard(rowIdx, cellIdx)}
+                                    class="h-24 w-24 rounded bg-zinc-700 text-4xl flex justify-center items-center {pieceBackground(cell)}"
+                                >
+                                    {game.icon(cell)}
+                                </button>
                             {/if}
                         {/each}
                     {/each}

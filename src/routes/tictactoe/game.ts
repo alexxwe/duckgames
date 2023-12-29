@@ -80,8 +80,12 @@ export class TicTacToe {
             return alert('Please, select a piece first')
         }
 
-        if (this.board[y]![x]) {
-            return alert('There is already a piece there')
+        // Is there already a piece there?
+        const piece = this.board[y]![x]!
+        if (piece) {
+            if (this.pieceValue(piece) >= this.pieceValue(this.selectedPiece)) {
+                return alert('You cannot move a piece to a place where the enemy is bigger than or equal to you')
+            }
         }
 
         // Remove piece from player
