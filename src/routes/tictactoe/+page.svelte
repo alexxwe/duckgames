@@ -4,9 +4,9 @@
     import { TicTacToe, type Piece, gameData } from './game'
 
     // Ask for player names
-    let gameStep: 0 | 1 = 1
-    let input1: string = 'Dawichi'
-    let input2: string = 'Another guy'
+    let gameStep: 0 | 1 = 0
+    let input1: string = 'Player 1'
+    let input2: string = 'Player 2'
 
     // Initialize the game
     // The inner logic is handled by the class
@@ -35,9 +35,8 @@
 
 <div class="flex flex-col items-center justify-center">
     <Box title="Tic Tac Toe">The game you already know BUT this time with matrioshkas!</Box>
-    <span>isWhiteTurn: {$gameData.isWhiteTurn}</span>
-    <span>selectedPiece: {JSON.stringify($gameData.selectedPiece)}</span>
-    <br />
+    <!-- <span>isWhiteTurn: {$gameData.isWhiteTurn}</span> -->
+    <!-- <span>selectedPiece: {JSON.stringify($gameData.selectedPiece)}</span> -->
     <br />
 
     {#if gameStep === 0} 
