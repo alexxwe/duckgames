@@ -4,19 +4,26 @@ import { writable, type Writable } from 'svelte/store'
 export type Piece = {
     id: number
     player: 1 | 2
+    used: boolean
 }
 
 // Initial data and type
-const initial_data = {
+const initial_data: {
+    isWhiteTurn: boolean
+    selectedPiece: Piece | null
+    player1: Array<Piece>
+    player2: Array<Piece>
+    board: Array<Array<0 | Piece>>
+} = {
     isWhiteTurn: true,
-    selectedPiece: null as Piece | null,
-    player1: Array.from({ length: 9 }, (_, i) => ({ id: i, player: 1 })) as Piece[],
-    player2: Array.from({ length: 9 }, (_, i) => ({ id: i, player: 2 })) as Piece[],
+    selectedPiece: null,
+    player1: Array.from({ length: 9 }, (_, i) => ({ id: i, player: 1, used: false })),
+    player2: Array.from({ length: 9 }, (_, i) => ({ id: i, player: 2, used: false })),
     board: [
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0],
-    ] as Array<Array<0 | Piece>>,
+    ],
 }
 
 // The store itself
@@ -80,11 +87,20 @@ export class TicTacToe {
         // Remove piece from player
         const player = this.isWhiteTurn ? this.player1 : this.player2
         const index = player.findIndex(p => p.id === this.selectedPiece!.id)
-        player.splice(index, 1)
+        player[index]!.used = true
 
         // Update board
         this.board[y]![x] = this.selectedPiece
         this.selectedPiece = null
-        gameData.update(data => ({ ...data, board: this.board, selectedPiece: null, player1: this.player1, player2: this.player2 }))
+        this.isWhiteTurn = !this.isWhiteTurn
+
+        // Update store
+        gameData.update(_ => ({
+            board: this.board,
+            selectedPiece: null,
+            player1: this.player1,
+            player2: this.player2,
+            isWhiteTurn: this.isWhiteTurn,
+        }))
     }
 }

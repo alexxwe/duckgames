@@ -12,12 +12,16 @@
     // The inner logic is handled by the class
     const game = new TicTacToe()
 
-    function highlightCell(clickedPiece: Piece, selectedPiece: Piece | null) {
+    function highlightCell(clickedPiece: Piece, selectedPiece: Piece | null, isBluePlayer: boolean) {
         if (selectedPiece !== null && clickedPiece.player !== selectedPiece.player) {
             selectedPiece = null
             // return alert('You can only move your pieces!')
         }
-        return clickedPiece.id === selectedPiece?.id ? 'border-green-400' : 'border-blue-700'
+        return clickedPiece.id === selectedPiece?.id ? 'border-green-400' : isBluePlayer ? 'border-blue-700' : 'border-red-700'
+    }
+
+    function pieceBackground(piece: Piece) {
+        return piece.player === 1 ? 'bg-blue-500/50' : 'bg-red-500/50'
     }
 
     function handleClickOnPiece(piece: Piece) {
@@ -36,7 +40,7 @@
     <br />
     <br />
 
-    {#if gameStep === 0}
+    {#if gameStep === 0} 
         <p class="py-8">To start the game, write your names</p>
         <section class="grid gap-4 md:grid-cols-2">
             <div class="flex flex-col">
@@ -55,7 +59,7 @@
     {/if}
 
     {#if gameStep === 1}
-        {#if game.isWhiteTurn}
+        {#if $gameData.isWhiteTurn}
             <div>Turn: {input1}</div>
         {:else}
             <div>Turn: {input2}</div>
@@ -67,18 +71,25 @@
                 <hr />
                 <br />
                 <div class="grid grid-cols-3 gap-2 text-4xl">
-                    {#each game.player1 as piece, pieceIdx}
+                    {#each $gameData.player1 as piece, pieceIdx}
                         <div class="flex justify-center">
-                            <button
-                                class="border rounded bg-blue-500/50 p-2 {highlightCell(piece, $gameData.selectedPiece)}"
-                                on:click={() => game.selectPiece(piece)}
-                            >
-                                {game.icon(piece)}
-                            </button>
+                            {#if piece.used}
+                                <div class="rounded bg-gray-500/50 p-2 opacity-25">
+                                    {game.icon(piece)}
+                                </div>
+                            {:else}
+                                <button
+                                    class="border rounded bg-blue-500/50 p-2 {highlightCell(piece, $gameData.selectedPiece, true)}"
+                                    on:click={() => handleClickOnPiece(piece)}
+                                >
+                                    {game.icon(piece)}
+                                </button>
+                            {/if}
                         </div>
                     {/each}
                 </div>
             </aside>
+
             <div>
                 <h2 class="pb-4 text-center text-2xl">Board</h2>
                 <hr />
@@ -91,25 +102,32 @@
                                     {cell}
                                 </button>
                             {:else}
-                                <div class="h-24 w-24 rounded bg-zinc-700 text-4xl flex justify-center items-center">{game.icon(cell)}</div>
+                                <div class="h-24 w-24 rounded bg-zinc-700 text-4xl flex justify-center items-center {pieceBackground(cell)}">{game.icon(cell)}</div>
                             {/if}
                         {/each}
                     {/each}
                 </div>
             </div>
+
             <aside>
                 <h2 class="pb-4 text-center text-2xl">{input2}</h2>
                 <hr />
                 <br />
                 <div class="grid grid-cols-3 gap-2 text-4xl">
-                    {#each game.player2 as piece, pieceIdx}
-                        <div class="flex justify-center">
+                    {#each $gameData.player2 as piece, pieceIdx}
+                    <div class="flex justify-center">
+                        {#if piece.used}
+                            <div class="rounded bg-gray-500/50 p-2 opacity-25">
+                                {game.icon(piece)}
+                            </div>
+                        {:else}
                             <button
-                                class="border border-red-700 rounded bg-red-500/50 p-2 {highlightCell(piece, $gameData.selectedPiece)}"
-                                on:click={() => game.selectPiece(piece)}
+                                class="border rounded bg-red-700/50 p-2 {highlightCell(piece, $gameData.selectedPiece, false)}"
+                                on:click={() => handleClickOnPiece(piece)}
                             >
                                 {game.icon(piece)}
                             </button>
+                        {/if}
                         </div>
                     {/each}
                 </div>
