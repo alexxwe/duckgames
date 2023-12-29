@@ -68,7 +68,7 @@
         1: empty,
         2: empty,
         3: empty,
-        4: empty,
+        4: row1,
         5: empty,
         6: empty,
         7: row2,
@@ -125,20 +125,83 @@
      * This function will generate the possible moves for the selected piece
      */
     function generateGhostMovesFor(rowKey: Key, colKey: Key) {
-        const checkTopRight = () => {
-            const top_right_row = rowKey - 1
-            const top_right_col = colKey + 1
+        const checkTopRight = (is_a_king = false) => {
+            const row_variation = -1
+            const col_variation = 1
 
-            if (!validateKey(top_right_row) || !validateKey(top_right_col)) {
-                console.log('[TOP RIGHT]: Out of index')
+            // Recursive function, analyze the whole diagonal
+            function checkNextCell(rowKey: Key, colKey: Key) {
+                const next_row = rowKey + row_variation
+                const next_col = colKey + col_variation
+
+                if (!validateKey(next_row) || !validateKey(next_col)) {
+                    console.log('[TOP RIGHT]: Out of index')
+                    return
+                }
+
+                if (!is_a_king) {
+                    // 1. Next is yours -> you cannot move
+                    if (gameTurn1 ? [1,3].includes(board[next_row][next_col]) : [2,4].includes(board[next_row][next_col])) {
+                        return 'stop'
+                    }
+
+                    // 2. Next is empty -> you may move there
+                    if (board[next_row][next_col] === 0) {
+                        board[next_row][next_col] = 5
+                        return 'highlighted'
+                    }
+
+                    // 3. Next is enemy -> check behind it
+                    if (gameTurn1 ? [2,4].includes(board[next_row][next_col]) : [1,3].includes(board[next_row][next_col])) {
+                        const next_next_row = next_row + row_variation
+                        const next_next_col = next_col + col_variation
+
+                        if (!validateKey(next_row) || !validateKey(next_col)) {
+                            console.log('[TOP RIGHT]: Out of index')
+                            return
+                        }
+
+                        // NextNext is empty -> you may move there (eat)
+                        if (board[next_row + row_variation][next_col + col_variation] === 0) {
+                            board[next_row + row_variation][next_col + col_variation] = 5
+                            return 'eatable'
+                        }
+                    }
+                        // 3.1 hay otra ficha despues STOP
+                        // 3.2 hay un espacio despues -> eatable
+                }
+
+                const eaten = [] as [Key, Key][]
+                function checkCell(cell: [Key, Key]) {
+                    if (condition) cell = 5
+
+                    // eaten?
+                    if (condition) eaten.push(cell)
+                    return checkCell([next_row, next_col])
+                }
+
+                // 1: hay una azul STOP
+                // 2: hay una roja -> check next
+                    // 2.1 hay otra ficha despues STOP
+                    // 2.2 hay un espacio despues -> seguir
+                // 3: vacio -> seguir
             }
 
-            const top_right_cell = board[top_right_row as Key][top_right_col as Key]
 
-            // is empty
-            if (top_right_cell === 0) {
-                board[top_right_row as Key][top_right_col as Key] = 5
-            }
+
+            // const top_right_row = rowKey - 1
+            // const top_right_col = colKey + 1
+
+            // if (!validateKey(top_right_row) || !validateKey(top_right_col)) {
+            //     console.log('[TOP RIGHT]: Out of index')
+            // }
+
+            // const top_right_cell = board[top_right_row as Key][top_right_col as Key]
+
+            // // is empty
+            // if (top_right_cell === 0) {
+            //     board[top_right_row as Key][top_right_col as Key] = 5
+            // }
 
             // is eatable
             if (gameTurn1) {
@@ -147,18 +210,18 @@
                 // same shit
             }
         }
-        const checkTopLeft = () => {
-// TOP LEFT
+        const checkTopLeft = (is_a_king = false) => {
+                // TOP LEFT
                 // if (board[rowKey - 1]![colKey - 1]! === 0) {
                 //     board[rowKey - 1]![colKey - 1]! = 5
                 // } else if ([2, 4].includes(board[rowKey - 1]![colKey - 1]!) && board[rowKey - 2]![colKey - 2]! === 0) {
                 //     board[rowKey - 2]![colKey - 2]! = 5
                 // }
         }
-        const checkBottomRight = () => {
+        const checkBottomRight = (is_a_king = false) => {
 
         }
-        const checkBottomLeft = () => {
+        const checkBottomLeft = (is_a_king = false) => {
 
         }
 
@@ -166,10 +229,10 @@
         const is_a_king = [3, 4].includes(board[rowKey][colKey])
         if (is_a_king) {
             // King can move in all directions
-            checkTopRight()
-            checkTopLeft()
-            checkBottomRight()
-            checkBottomLeft()
+            checkTopRight(true)
+            checkTopLeft(true)
+            checkBottomRight(true)
+            checkBottomLeft(true)
         } else {
             if (gameTurn1) {
                 // Blue moving (only up)
@@ -183,8 +246,14 @@
                 }
             } else {
                 // Red moving (only down)
-                // BOTTOM RIGHT
-                // BOTTOM LEFT
+                if (colKey === 0) {
+                    checkBottomRight()
+                } else if (colKey === 7) {
+                    checkBottomLeft()
+                } else {
+                    checkBottomRight()
+                    checkBottomLeft()
+                }
             }
         }
 
