@@ -135,10 +135,10 @@
     >
         <h2><i class="bi bi-exclamation-triangle-fill"></i> {alert.error ? alert.error : alert.win}</h2>
     </div>
-    <div class="flex flex-wrap mx-auto w-[474px] gap-1 text-center text-2xl">
+    <div class="flex flex-wrap mx-auto w-[19rem] md:w-[32rem] gap-1 text-center text-2xl">
         {#each board as row, rowIdx}
             {#each row as col, colIdx}
-                <button on:click={() => handleClick(rowIdx, colIdx)} class="bg-neutral-500 hover:bg-neutral-700 p-4 h-16 w-16">
+                <button on:click={() => handleClick(rowIdx, colIdx)} class="bg-neutral-500 hover:bg-neutral-700 md:p-4 h-10 w-10 md:h-16 md:w-16">
                     {#if col === 1}
                         <div class="animate__animated animate__backInDown animate__fast flex items-center justify-center w-full h-full">
                             <p class="w-8 h-8 bg-blue-700 rounded-full border-4 border-blue-900"></p>
