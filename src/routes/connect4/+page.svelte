@@ -51,45 +51,35 @@
                 /**
                  * CHECK DIAGONALS
                  */
-                if (
-                    board[row_idx + 1] &&
-                    board[row_idx + 2] &&
-                    board[row_idx + 3] &&
-                    board[cell_idx + 1] &&
-                    board[cell_idx + 2] &&
-                    board[cell_idx + 3]
-                ) {
-                    if (
-                        board[row_idx]![cell_idx] !== 0 &&
-                        board[row_idx]![cell_idx] === board[row_idx + 1]![cell_idx + 1] &&
-                        board[row_idx]![cell_idx] === board[row_idx + 2]![cell_idx + 2] &&
-                        board[row_idx]![cell_idx] === board[row_idx + 3]![cell_idx + 3]
-                    ) {
-                        return true
+                // CHECK DIAGONALS (top-left to bottom-right)
+                for (let row_idx = 0; row_idx < board.length - 3; row_idx++) {
+                    for (let cell_idx = 0; cell_idx < board[0]!.length - 3; cell_idx++) {
+                        if (
+                            board[row_idx]![cell_idx] !== 0 &&
+                            board[row_idx]![cell_idx] === board[row_idx + 1]![cell_idx + 1] &&
+                            board[row_idx]![cell_idx] === board[row_idx + 2]![cell_idx + 2] &&
+                            board[row_idx]![cell_idx] === board[row_idx + 3]![cell_idx + 3]
+                        ) {
+                            return true
+                        }
                     }
                 }
 
-                if (
-                    board[row_idx + 1] &&
-                    board[row_idx + 2] &&
-                    board[row_idx + 3] &&
-                    board[cell_idx - 1] &&
-                    board[cell_idx - 2] &&
-                    board[cell_idx - 3]
-                ) {
-                    if (
-                        board[row_idx]![cell_idx] !== 0 &&
-                        board[row_idx]![cell_idx] === board[row_idx + 1]![cell_idx - 1] &&
-                        board[row_idx]![cell_idx] === board[row_idx + 2]![cell_idx - 2] &&
-                        board[row_idx]![cell_idx] === board[row_idx + 3]![cell_idx - 3]
-                    ) {
-                        return true
+                // CHECK DIAGONALS (top-right to bottom-left)
+                for (let row_idx = 0; row_idx < board.length - 3; row_idx++) {
+                    for (let cell_idx = board[0]!.length - 1; cell_idx >= 3; cell_idx--) {
+                        if (
+                            board[row_idx]![cell_idx] !== 0 &&
+                            board[row_idx]![cell_idx] === board[row_idx + 1]![cell_idx - 1] &&
+                            board[row_idx]![cell_idx] === board[row_idx + 2]![cell_idx - 2] &&
+                            board[row_idx]![cell_idx] === board[row_idx + 3]![cell_idx - 3]
+                        ) {
+                            return true
+                        }
                     }
                 }
             }
         }
-
-        return false
     }
 
     function handleClick(rowIdx: number, colIdx: number) {
@@ -135,10 +125,13 @@
     >
         <h2><i class="bi bi-exclamation-triangle-fill"></i> {alert.error ? alert.error : alert.win}</h2>
     </div>
-    <div class="flex flex-wrap mx-auto w-[474px] gap-1 text-center text-2xl">
+    <div class="flex flex-wrap mx-auto w-[19rem] md:w-[32rem] gap-1 text-center text-2xl">
         {#each board as row, rowIdx}
             {#each row as col, colIdx}
-                <button on:click={() => handleClick(rowIdx, colIdx)} class="bg-neutral-500 hover:bg-neutral-700 p-4 h-16 w-16">
+                <button
+                    on:click={() => handleClick(rowIdx, colIdx)}
+                    class="bg-neutral-500 hover:bg-neutral-700 md:p-4 h-10 w-10 md:h-16 md:w-16"
+                >
                     {#if col === 1}
                         <div class="animate__animated animate__backInDown animate__fast flex items-center justify-center w-full h-full">
                             <p class="w-8 h-8 bg-blue-700 rounded-full border-4 border-blue-900"></p>
